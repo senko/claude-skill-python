@@ -1,19 +1,18 @@
 ---
 name: python-setup
-description: Set up Python projects with uv, ruff, ty, pytest, pre-commit hooks, and GitHub Actions CI following best practices
+description: Set up and maintain Python projects with uv, ruff, ty, pytest, pre-commit hooks, and GitHub Actions CI following best practices
 ---
 
-# Python Project Setup Skill
+# Python Development Skill
 
-This skill guides you through setting up Python projects with modern tooling and best practices.
+This skill guides you through setting up and maintaining Python projects with modern tooling and best practices. Use it both for initial project setup and throughout the development lifecycle.
 
 ## When to Use This Skill
 
 Use this skill when the user asks to:
-- Create a new Python project
-- Set up a Python development environment
-- Initialize a Python project with modern tooling
-- Configure Python linting, formatting, type checking, and testing
+- **Initial Setup:** Create a new Python project, set up development environment, configure tooling
+- **Ongoing Development:** Add dependencies, configure new features, update project structure
+- **Maintenance:** Update tooling configuration, add tests, improve documentation
 
 ## Platform and Tools
 
@@ -237,11 +236,53 @@ When setting up a new Python project, ensure:
 - [ ] Created initial test file
 - [ ] Verified all tools run successfully
 
-## Tips
+## Ongoing Development Tasks
 
-- Always ask for specific project requirements before assuming dependencies
-- Encourage the user to update `.env.example` as they add configuration needs
-- Remind the user to fill in the license section of README.md
-- If the project needs a CLI, suggest using `typer` or `click`
-- If the project needs async support, mention `pytest-asyncio` is commonly used
-- The `doc/` directory is for architecture decisions, API docs, and other project documentation
+Throughout the project lifecycle, proactively help with:
+
+### Adding Dependencies
+
+When adding new dependencies:
+- Use `uv add <package>` for runtime dependencies
+- Use `uv add --dev <package>` for development dependencies
+- Update `.env.example` if the new dependency requires environment variables
+- Update README.md if the dependency changes setup or usage instructions
+
+### Environment Variables
+
+When code references new environment variables:
+- Add them to `.env.example` with example values and comments
+- Update the README if they need to be documented
+- Never commit actual values to `.env.example` - use placeholders
+
+### Documentation
+
+Proactively maintain documentation:
+- Update README.md when features, usage, or setup instructions change
+- Add architecture docs to `doc/` for significant design decisions
+- Fill in the `[Specify license]` section in README.md if the user mentions a license
+- Keep the "Project Structure" section current if directories are added
+
+### Common Libraries
+
+Recommend appropriate libraries when needed:
+- CLI tools: Suggest `typer` or `click`
+- Async support: Suggest `pytest-asyncio` for testing
+- HTTP requests: Always use `httpx` (not `requests`)
+- Configuration: Use `python-dotenv` for environment variables
+
+### Testing
+
+When writing new features:
+- Add corresponding tests in `tests/`
+- Follow the naming convention `test_*.py`
+- Ensure tests can be imported from `src/` (already configured in pytest)
+- Run `uv run pytest` to verify tests pass
+
+### Code Quality
+
+Before completing work:
+- Format with `uv run ruff format`
+- Check linting with `uv run ruff check --fix`
+- Verify types with `uv run ty check`
+- Run all tests with `uv run pytest`
