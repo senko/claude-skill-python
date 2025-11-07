@@ -51,16 +51,21 @@ Use this skill when the user asks to:
 Then proceed with:
 
 ```bash
-uv init <project-name>
-cd <project-name>
+# Initialize the project in the current directory
+uv init
+
+# Remove the dummy hello.py file that uv creates
+rm hello.py
 ```
+
+**Note:** The user should already be in the directory where they want to create the project. Use `uv init` without parameters to initialize in the current directory, then update the project name in `pyproject.toml` if needed.
 
 ### 2. Project Structure
 
-Create the following directory structure:
+Create the following directory structure in the current directory:
 
 ```
-<project-name>/
+.
 ├── src/              # Source code goes here
 ├── tests/            # Test files go here
 ├── doc/              # Architecture docs and other documentation
@@ -91,8 +96,9 @@ Add any project-specific dependencies. Common ones:
 #### pyproject.toml
 
 Update `pyproject.toml` with:
-- Derived one-line description from the user's short description
-- pytest configuration
+- **Project name** - Update the `name` field with the user's project name
+- **Derived one-line description** from the user's short description
+- **pytest configuration**
 - Project metadata
 
 Add these sections:
@@ -324,10 +330,12 @@ All commands should pass successfully.
 When setting up a new Python project, ensure:
 
 - [ ] Asked user for project name and description
-- [ ] Initialized project with `uv init`
+- [ ] Initialized project with `uv init` (in current directory)
+- [ ] Removed the dummy `hello.py` file created by uv
+- [ ] Updated project name in `pyproject.toml`
 - [ ] Created directory structure (`src/`, `tests/`, `doc/`)
 - [ ] Added dev dependencies (ruff, ty, pytest, coverage, pytest-cov, pre-commit)
-- [ ] Configured `pyproject.toml` with pytest settings
+- [ ] Configured `pyproject.toml` with pytest settings and description
 - [ ] Created `.pre-commit-config.yaml` and installed hooks
 - [ ] Set up GitHub Actions CI workflow
 - [ ] Updated `.gitignore` to include `.venv` and `.env`
