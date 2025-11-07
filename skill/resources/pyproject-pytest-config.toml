@@ -1,0 +1,7 @@
+# Add this to your pyproject.toml file
+
+[tool.pytest.ini_options]
+addopts = "-ra -q --cov=src --no-cov-on-fail"
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_default_fixture_loop_scope = "function"
