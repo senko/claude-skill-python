@@ -98,130 +98,29 @@ Add any project-specific dependencies. Common ones:
 Update `pyproject.toml` with:
 - **Project name** - Update the `name` field with the user's project name
 - **Derived one-line description** from the user's short description
-- **pytest configuration**
+- **pytest configuration** - Read `skill/resources/pyproject-pytest-config.toml` using the Read tool for the configuration to add
 - Project metadata
-
-Add these sections:
-
-```toml
-[tool.pytest.ini_options]
-addopts = "-ra -q --cov=src --no-cov-on-fail"
-pythonpath = ["src"]
-testpaths = ["tests"]
-asyncio_default_fixture_loop_scope = "function"
-```
 
 #### .pre-commit-config.yaml
 
-Create with the following content (reference: `skill/resources/pre-commit-config.yaml`):
+Create `.pre-commit-config.yaml` by reading the template from `skill/resources/pre-commit-config.yaml` using the Read tool.
 
-```yaml
-fail_fast: true
-repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.8
-    hooks:
-      # Run the linter.
-      - id: ruff-check
-        args: [--fix]
-      # Run the formatter.
-      - id: ruff-format
-  - repo: local
-    hooks:
-      - id: ty
-        name: ty check
-        stages: [pre-commit]
-        types: [python]
-        entry: uv run ty check
-        language: python
-        pass_filenames: false
-  - repo: local
-    hooks:
-      # Run the tests
-      - id: pytest
-        name: pytest
-        stages: [pre-commit]
-        types: [python]
-        entry: uv run pytest
-        language: system
-        pass_filenames: false
-```
-
-Install the hooks:
+Then install the hooks:
 ```bash
 uv run pre-commit install
 ```
 
 #### .github/workflows/ci.yml
 
-Create GitHub Actions CI workflow (reference: `skill/resources/ci.yml`):
-
-```yaml
-name: CI
-
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python 3.13
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
-
-      - name: Install dependencies
-        run: uv sync --dev
-
-      - name: Lint with ruff
-        run: uv run ruff check --output-format github
-
-      - name: Check code style with ruff
-        run: uv run ruff format --check --diff
-
-      - name: Check type hints with ty
-        run: uv run ty check
-
-      - name: Run tests
-        run: uv run pytest --cov=src --cov-report=term-missing
-```
+Create the GitHub Actions CI workflow by reading the template from `skill/resources/ci.yml` using the Read tool. Place it at `.github/workflows/ci.yml`.
 
 #### .gitignore
 
-Ensure `.gitignore` includes:
-```
-.venv
-.env
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.coverage
-htmlcov/
-.ruff_cache/
-```
+Update `.gitignore` by reading the template from `skill/resources/gitignore-template` using the Read tool. Ensure it includes `.venv` and `.env` at minimum.
 
 #### .env.example
 
-Create an `.env.example` file with example/default values for any environment variables the project uses. Start with an empty file or basic structure:
-
-```
-# Example environment variables
-# Copy this file to .env and fill in your values
-
-# API_KEY=your_api_key_here
-# DATABASE_URL=postgresql://localhost/dbname
-```
+Create `.env.example` by reading the template from `skill/resources/env-example-template` using the Read tool. Update it with any project-specific environment variables as needed.
 
 ### 5. README.md
 
@@ -299,13 +198,7 @@ uv run ty check
 
 ### 6. Initial Test
 
-Create a basic test file `tests/test_basic.py` to verify the test harness works:
-
-```python
-def test_basic():
-    """Verify that the test harness is working."""
-    assert 1 + 1 == 2
-```
+Create a basic test file `tests/test_basic.py` by reading the template from `skill/resources/test-basic-template.py` using the Read tool. This test verifies that the test harness is working correctly.
 
 ### 7. Verification
 
