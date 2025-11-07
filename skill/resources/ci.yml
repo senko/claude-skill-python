@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Lint with ruff
+        run: uv run ruff check --output-format github
+
+      - name: Check code style with ruff
+        run: uv run ruff format --check --diff
+
+      - name: Check type hints with ty
+        run: uv run ty check
+
+      - name: Run tests
+        run: uv run pytest --cov=src --cov-report=term-missing
